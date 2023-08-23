@@ -25,8 +25,8 @@ Redis大家应该非常非常熟悉了，相对于memcache提供了更加丰富�
 先来看Redis的基础，对外提供单key、链表、set、Hash、大数、经纬度等多种数据接口及相关的API，并且支持Lua脚本，能够灵活的实现复合操作的原子性，简单逻辑可以直接基于Redis+lua进行编程，比较舒服。\
 Redis本身可以理解为是一个大Hash，内部实现了SDS、ziplist、quicklist、hashtable等多种高效的数据结构，在提供丰富数据API的基础上进一步保证性能。\
 网络连接处理方面Redis也是一个非常经典的Reactor式网络应用，并没有像memcache直接使用了libevent这样的库，而是直接裸写的epoll（默认水平触发、也可配置为边缘触发），比起libevent更加简单了，并且除了持久化线程Redis完全是单线程来搞的。\
-![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-07-28%20%E4%B8%8A%E5%8D%8812.39.10.png){height="924"
-width="1378"}
+![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-07-28%20%E4%B8%8A%E5%8D%8812.39.10.png) 
+ 
 
 ```  
 wget http://download.redis.io/releases/redis-4.0.1.tar.gz
@@ -77,8 +77,8 @@ pod的功能，自动拉起）\
 codis-ha在Codis整个架构中是没有办法直接操作代理和服务，因为所有的代理和服务的操作都要经过dashboard处理\
 在Codis中使用的是Zookeeper来保存映射关系，由proxy上来同步配置信息，其实它支持的不止zookeeper，还有etcd和本地文件\
 Server group中包含了主从节点\
-![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/40868CD8-9765-4619-818E-E9FC21AB55A7.png){height="844"
-width="1760"}\
+![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/40868CD8-9765-4619-818E-E9FC21AB55A7.png) 
+ \
 codis是支持动态不停机扩容的，其实就是一个节点打标、历史数据rehash的过程，中间会涉及老hash值与新hash值请求转发的过程。
 
 ##### redis-cluster方案  
@@ -87,8 +87,8 @@ Redis-cluster是去中心化的没有代理，所以只能通过客户端分片�
 槽跟节点的映射关系保存在每个节点上，每个节点每秒钟会ping十次其他几个最久没通信的节点，其他节点也是一样的原理互相PING
 ，PING的时候一个是判断其他节点有没有问题，另一个是顺便交换一下当前集群的节点信息、包括槽与节点映射的关系等。\
 客户端操作key的时候先通过分片算法算出所属的槽，然后随机找一个服务端请求。\
-![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/41128128-EFE6-4800-87C7-EE19E6FF9DDF.png){height="824"
-width="1526"}\
+![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/41128128-EFE6-4800-87C7-EE19E6FF9DDF.png) 
+ \
 图片来源于：https://www.cnblogs.com/pingyeaa/p/11294773.html
 
 ##### 一致性Hash  
@@ -99,8 +99,8 @@ width="1526"}\
 分散性：同一个用户的请求尽可能落到同一个服务器上处理\
 平衡性：是指客户端hash后的请求应该能够相对均匀分散到不同的server上去\
 为了做到这几点，在引入hash环的思路的基础上有引入了虚拟节点等措施来保证上述特性。\
-![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/0_1323584813E98e.png){height="318"
-width="389"}
+![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/0_1323584813E98e.png) 
+ 
 
 ### LevelDB  
 
@@ -110,8 +110,8 @@ levelDB是同样也是一个Key-value数据库，但是相对于Redis、memcache
 
 既然是一个key-value
 数据库，显而易见支持的api肯定有put／get／delete（delete实质上就是put一个具有删除标的key）等操作，从这三个API入手去看下levelDB的实现：\
-![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-07-29%20%E4%B8%8A%E5%8D%8812.46.39.png){height="1044"
-width="1774"}\
+![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-07-29%20%E4%B8%8A%E5%8D%8812.46.39.png) 
+ \
 levelDB内部存储分为内存存储及磁盘存储，内存存储的依赖的数据结构是跳跃表（可以粗暴的理解为key有序的set集合，默认字典序），一种查找时可以近似做到log(n)，具备链表的快速增删、数组的快速查找等特性的数据结构。图中Mutable、Immutale实现都是跳表，Mutable是一种支持写入和读取的跳表，Mutable到达一定大小之后会触发冻结操作来产生Immutale（只读），然后Immutale会持久化到磁盘中产生SSTable
 file（只读），实际上就是一种不断下沉的过程。\
 跳表中的key是一种复合结构（包含value值）key:
@@ -134,8 +134,8 @@ file，如果存在多个版本，则选择最新的版本（序列号最大）�
 
 这就是叫levelDB的原因\
 上面提到了数据下沉的过程，下面来仔细看一下这个过程：\
-![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-07-29%20%E4%B8%8A%E5%8D%881.15.30.png){height="858"
-width="1676"}\
+![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-07-29%20%E4%B8%8A%E5%8D%881.15.30.png) 
+ \
 磁盘内的存储结构分为多层，层级的深度同容量成正比：capacity = level \> 0
 && 10\^(level+1) M\
 由Mutable下沉到L0层（第一层磁盘文件）的过程称为minor
@@ -155,8 +155,8 @@ compact，这个过程中完全是内存数据直接存储，多个L0 SSTable fi
 
 磁盘随机读写和顺序读写的性能差异是惊人的，levelDB正是利用了这一点来做的。\
 随机读写做下差异比较的话，普通磁盘的顺序访问速度跟SSD顺序访问速度差不多一致，远超随机访问的速度（差不多2倍多），甚至能达到内存随机访问的速度（这里举的例子是指SAS磁盘），随机读写相对于顺序读写主要时间花费在循道上，并且顺序读写会预读信息，所以速度自然就差异很大了。\
-![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/v2-2cbcf833a225c6ba6534ac8fa77d98d0_1200x500.jpg){height="360"
-width="600"}\
+![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/v2-2cbcf833a225c6ba6534ac8fa77d98d0_1200x500.jpg) 
+ \
 采用这用优化思路的应用有很多，比如Kafka消息文件的追加写入。
 
 ##### 精妙的细节  
@@ -199,8 +199,8 @@ Memcached是一种基于内存的key-value存储，用来存储小块的任意�
 memcache的实现相对简单，主要表现为协议简单、命令简单、内部数据结构简单，memcache也相对高效，主要表现为基于libevent的事件处理模型（对于select、poll、epoll支持相对完备，熟悉C++的同学对其应该相对熟悉）、完全基于内存处理，关于memcache的使用可以直接看一下https://www.runoob.com/Memcached/Memcached-tutorial.html
 菜鸟教程。\
 详细说一下libevent，libevent可以简单粗暴的理解为一个C++的网络编程库（对比Java的netty、Go的net），在libevent的基础上就不用手撸epoll了，memcache的libevent的默认模式跟nginx的网络连接处理比较类似，起一个主线程监听并建立连接，然后每个核心绑定一个work线程用于处理数据任务，这也是网络并发编程最常用的模式。因为多线程本身并不会降低时延，并且会额外带来一部分系统开销，主要用于充分提升CPU使用的，所以最合适的就是一个核一个线程。\
-![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/F350B66D-3367-4DBF-9283-4F6C0A4654DD.png){height="373"
-width="644"}\
+![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/F350B66D-3367-4DBF-9283-4F6C0A4654DD.png) 
+ \
 memcache在我的认知范围内并没有什么很经典的高可用方案（通常来说就是挂主从保证可用，然后一致性Hash做分片分摊单服务压力）
 
 ### Tair  
@@ -223,8 +223,8 @@ Cabinet、leveldb开发完成。
 
 一个Tair集群主要包括3个必选模块：configserver、dataserver和client，一个可选模块：invalidserver。\
 简单来看就是一种这样的结构：\
-![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-07-30%20%E4%B8%8A%E5%8D%881.20.07.png){height="654"
-width="1574"}\
+![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-07-30%20%E4%B8%8A%E5%8D%881.20.07.png) 
+ \
 一个集群中包含2台configserver及多台dataServer。两台configserver互为主备并通过维护和dataserver之间的心跳获知集群中存活可用的dataserver，构建数据在集群中的分布信息（对照表）。dataserver负责数据的存储，并按照configserver的指示完成数据的复制和迁移工作。client在启动的时候，从configserver获取数据分布信息，根据数据分布信息和相应的dataserver交互完成用户的请求。invalidserver主要负责对等集群的删除和隐藏操作，保证对等集群的数据一致。
 
 #### 性能优化  
@@ -247,16 +247,16 @@ width="1574"}\
 dataServer收到客户端的请求后，由每个具体处理请求的工作线程（Worker
 Thread）进行请求的统计。工作线程用来统计热点的数据结构均为ThreadLocal模式的数据结构，完全无锁化设计。热点识别算法使用精心设计的多级加权LRU链和HashMap组合的数据结构，在保证服务端请求处理效率的前提下进行请求的全统计，支持QPS热点和流量热点（即请求的QPS不大但是数据本身过大而造成的大流量所形成的热点）的精准识别。\
 大家百度一下tair热点定义的方式，多半会出现如下公式：\
-![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-07-31%20%E4%B8%8A%E5%8D%881.11.13.png){height="544"
-width="1490"}
+![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-07-31%20%E4%B8%8A%E5%8D%881.11.13.png) 
+ 
 
 ###### 多级缓存&热点专项处理  
 
 对于读热点来说，我们要处理的其实就是IO压力、内部数据处理压力，对于网络IO的处理tair选择使用专用线程处理热点IO连接，在保证效率充分发挥CPU使用率的同时尽可能不影响到其他的key的处理，对于内部处理压力，tair专门为热点Key做了缓存，先访问内部缓存如果没有命中再去真正的数据源。并且每台机器的热点数据存储都是相同的，对于热点数据的压力相当于就分摊到了各个机器上，一定程度上来看，读热点的key做到了横向扩展。\
 对于写热点来说，采用的是微批处理的思路，合并写入。\
 所以Tair 的整体架构就变成了这样：\
-![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-07-31%20%E4%B8%8A%E5%8D%881.29.14.png){height="902"
-width="1808"}
+![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-07-31%20%E4%B8%8A%E5%8D%881.29.14.png) 
+ 
 
 #### 可靠性提升  
 
@@ -285,15 +285,15 @@ O(1)，数据库的大小小于内存大小，性能表现为内存的速度。\
 
 自定义高可用节点，将原生Redis
 30秒的鉴别时间缩短为5秒，HA节点负责机器的增减（包括临时抖动或者永久性宕机），进一步缩短了部分key不可用的时间。\
-![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-07-31%20%E4%B8%8A%E5%8D%881.51.56.png){height="1200"
-width="2226"}
+![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-07-31%20%E4%B8%8A%E5%8D%881.51.56.png) 
+ 
 
 #### 跨地域容灾  
 
 相对于同地域机房间的网络而言，跨地域专线很不稳定；第二，跨地域专线的带宽是非常有限且昂贵。并且在单元化部署、异地多活架构的背景下，美团做了集群间的复制方案，\
 这里可以简单的把通过redis复制协议拉数据的集群看作是从集群（从库）\
-![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-07-31%20%E4%B8%8A%E5%8D%881.56.35.png){height="1078"
-width="2908"}
+![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-07-31%20%E4%B8%8A%E5%8D%881.56.35.png) 
+ 
 
 #### 数据迁移  
 
@@ -314,8 +314,8 @@ width="2908"}
 
 该部分资料来源于美团技术团队，这一篇文章写的十分细致，我这里只做几个点描述，大家要了解可以直接去看这篇文章：https://tech.meituan.com/2020/07/01/kv-squirrel-cellar.html\
 cellar\
-![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-08-02%20%E4%B8%8B%E5%8D%881.41.28.png){height="1260"
-width="2366"}\
+![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-08-02%20%E4%B8%8B%E5%8D%881.41.28.png) 
+ \
 cellar
 跟tair的实现思路上是类似的，丰富了一些节点的能力，比如在中心节点与客户端之间新增了一层ob（与ZK的Observer类似
 ），把大量的业务请求与集群的大脑做了天然的隔离，防止路由表请求影响集群的管理，并且ob节点能够轻松做水平扩展，并且针对脑裂问题，在中心节点之上架设了zookeeper，保证元数据的高可靠。\
@@ -326,14 +326,14 @@ cellar
 因为集群节点的故障往往是短暂的（机器临时抖动、网络临时抖动等），所以在节点机器上是存有故障前的一部分数据的，如果恢复时做全量的恢复，时间成本是很高的，并且减少了一台实例对于集群来说也是存在较大风险的，所以说如何快速恢复节点并重演数据变的十分重要，这里cellar关注的就是这一点，采用handoff机制来解决的短暂故障带来的影响。\
 比如当A节点故障之后，中心节点识别到之后，请求根据路由表请求到B节点，B节点对于A故障期间的数据进行写log，当A节点恢复之后，B节点将故障期间的Log回写至A节点，当A节点重演完故障&故障恢复期间所有的数据时，A节点就可以正常处理请求了。\
 这样除了容灾方面外，我们更容易做节点升级，比如直接摘掉A节点做升级处理，然后触发Handoff机制，升级后回写升级期间的数据即可。\
-![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/D4006145-0666-4D7E-8E66-F047CCE02AEE.png){height="698"
-width="1128"}
+![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/D4006145-0666-4D7E-8E66-F047CCE02AEE.png) 
+ 
 
 #### Cellar 跨地域容灾  
 
 主要是由某一个阶段做数据copy，而不是每个结点都做，这样一定程度上减少了跨城IO专线带宽的占用\
-![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/35C4EE42-E7D5-4320-B9EA-CED3840BA129.png){height="856"
-width="1732"}
+![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/35C4EE42-E7D5-4320-B9EA-CED3840BA129.png) 
+ 
 
 #### Callar 性能优化  
 
@@ -341,14 +341,14 @@ width="1732"}
 
 针对性能优化话，cellar做了一些事情，最重要的一点就是快慢队列。\
 由于集群性能和可用性很多时候都是因为某一部分的请求给拖掉的，所以需要将这一部分请求做隔离（这一点跟Tair对于热点key的思路相对类似），根据请求的特点，拆分请求，分发到不同的队列中，由不同的线程进行处理。\
-![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/5C77CBF6-96AC-41EB-8DBE-AA8D9CE5368D.png){height="918"
-width="1818"}
+![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/5C77CBF6-96AC-41EB-8DBE-AA8D9CE5368D.png) 
+ 
 
 ##### 热点key处理  
 
 热点key的处理机制跟tair基本一致，server端做缓存（并且同步到每一个结点上）、客户端做缓内存\
-![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/E7ACDD06-CBE6-4EB9-8FAC-93523FE2DC97.png){height="895"
-width="1920"}
+![](%E8%B0%88%E4%B8%80%E8%B0%88%E8%8B%A5%E5%B9%B2%E7%9A%84K-V%20NoSQL%E5%BA%94%E7%94%A8%EF%BC%9ALevelDB%E3%80%81Redis%E3%80%81Tair%E3%80%81RockesDB.resources/E7ACDD06-CBE6-4EB9-8FAC-93523FE2DC97.png) 
+ 
 
 ### 后记  
 

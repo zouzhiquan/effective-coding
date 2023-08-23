@@ -332,8 +332,8 @@ epoll的特点
 
 <div>
 
-![](%E7%BD%91%E7%BB%9CIO%20%E5%9F%BA%E7%A1%80.resources/NSFileHandle_5.jpg){height="285"
-width="500"}
+![](%E7%BD%91%E7%BB%9CIO%20%E5%9F%BA%E7%A1%80.resources/NSFileHandle_5.jpg) 
+ 
 
 </div>
 
@@ -357,8 +357,8 @@ recvfrom -\> \[syscall -\> wait -\> copy -\>\] return OK!
 
 <div>
 
-![](%E7%BD%91%E7%BB%9CIO%20%E5%9F%BA%E7%A1%80.resources/NSFileHandle_2.jpg){height="278"
-width="500"}\
+![](%E7%BD%91%E7%BB%9CIO%20%E5%9F%BA%E7%A1%80.resources/NSFileHandle_2.jpg) 
+ \
 
 </div>
 
@@ -400,8 +400,8 @@ recvfrom -\>\[syscall -\> copy -\> \] return OK!
 
 <div>
 
-![](%E7%BD%91%E7%BB%9CIO%20%E5%9F%BA%E7%A1%80.resources/NSFileHandle_1.jpg){height="282"
-width="500"}\
+![](%E7%BD%91%E7%BB%9CIO%20%E5%9F%BA%E7%A1%80.resources/NSFileHandle_1.jpg) 
+ \
 
 </div>
 
@@ -432,8 +432,8 @@ recvfrom -\> \[syscall -\> copy -\> \] return OK! 
 
 <div>
 
-![](%E7%BD%91%E7%BB%9CIO%20%E5%9F%BA%E7%A1%80.resources/NSFileHandle_6.jpg){height="285"
-width="500"}\
+![](%E7%BD%91%E7%BB%9CIO%20%E5%9F%BA%E7%A1%80.resources/NSFileHandle_6.jpg) 
+ \
 
 </div>
 
@@ -470,8 +470,8 @@ return OK!
 
 <div>
 
-![](%E7%BD%91%E7%BB%9CIO%20%E5%9F%BA%E7%A1%80.resources/NSFileHandle_4.jpg){height="285"
-width="500"}\
+![](%E7%BD%91%E7%BB%9CIO%20%E5%9F%BA%E7%A1%80.resources/NSFileHandle_4.jpg) 
+ \
 
 </div>
 
@@ -519,15 +519,15 @@ aio_read -\> \[syscall -\> wait -\> \] return
 
 <div>
 
-![](%E7%BD%91%E7%BB%9CIO%20%E5%9F%BA%E7%A1%80.resources/NSFileHandle.jpg){height="375"
-width="500"}\
+![](%E7%BD%91%E7%BB%9CIO%20%E5%9F%BA%E7%A1%80.resources/NSFileHandle.jpg) 
+ \
 
 </div>
 
 <div>
 
-![](%E7%BD%91%E7%BB%9CIO%20%E5%9F%BA%E7%A1%80.resources/NSFileHandle_3.jpg){height="141"
-width="500"}\
+![](%E7%BD%91%E7%BB%9CIO%20%E5%9F%BA%E7%A1%80.resources/NSFileHandle_3.jpg) 
+ \
 
 </div>
 
