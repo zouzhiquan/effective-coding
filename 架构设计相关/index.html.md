@@ -1,0 +1,9 @@
+---
+title: 已导出笔记的索引
+---
+
+[架构视角的优化性能](%E6%9E%B6%E6%9E%84%E8%A7%86%E8%A7%92%E7%9A%84%E4%BC%98%E5%8C%96%E6%80%A7%E8%83%BD.html)\
+[就创新试错聊聊Serverless +
+Faas架构，赠送Groovy高性能规则引擎实践](%E5%B0%B1%E5%88%9B%E6%96%B0%E8%AF%95%E9%94%99%E8%81%8A%E8%81%8AServerless%20+%20Faas%E6%9E%B6%E6%9E%84%EF%BC%8C%E8%B5%A0%E9%80%81Groovy%E9%AB%98%E6%80%A7%E8%83%BD%E8%A7%84%E5%88%99%E5%BC%95%E6%93%8E%E5%AE%9E%E8%B7%B5.html)\
+[如何有效的进行架构设计？](%E5%A6%82%E4%BD%95%E6%9C%89%E6%95%88%E7%9A%84%E8%BF%9B%E8%A1%8C%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%EF%BC%9F.html)\
+[业务中间件设计方法论经验总结](%E4%B8%9A%E5%8A%A1%E4%B8%AD%E9%97%B4%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95%E8%AE%BA%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%93.html)\
